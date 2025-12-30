@@ -32,12 +32,12 @@ def handler(event: dict, context) -> dict:
             
             if category:
                 cur.execute(
-                    "SELECT id, title, content, category, image_url, credibility_rating, source, is_premium, views_count, published_at FROM news WHERE category = %s AND is_premium = %s ORDER BY published_at DESC",
+                    "SELECT id, title, content, category, image_url, credibility_rating, credibility_status, source, is_premium, views_count, published_at FROM news WHERE category = %s AND is_premium = %s ORDER BY published_at DESC",
                     (category, is_premium)
                 )
             else:
                 cur.execute(
-                    "SELECT id, title, content, category, image_url, credibility_rating, source, is_premium, views_count, published_at FROM news WHERE is_premium = %s ORDER BY published_at DESC",
+                    "SELECT id, title, content, category, image_url, credibility_rating, credibility_status, source, is_premium, views_count, published_at FROM news WHERE is_premium = %s ORDER BY published_at DESC",
                     (is_premium,)
                 )
             
@@ -50,10 +50,11 @@ def handler(event: dict, context) -> dict:
                     'category': row[3],
                     'image_url': row[4],
                     'credibility_rating': row[5],
-                    'source': row[6],
-                    'is_premium': row[7],
-                    'views_count': row[8],
-                    'published_at': row[9].isoformat() if row[9] else None
+                    'credibility_status': row[6],
+                    'source': row[7],
+                    'is_premium': row[8],
+                    'views_count': row[9],
+                    'published_at': row[10].isoformat() if row[10] else None
                 })
             
             return {

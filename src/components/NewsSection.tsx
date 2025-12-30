@@ -9,6 +9,7 @@ interface News {
   category: string;
   image_url: string;
   credibility_rating: number;
+  credibility_status: string;
   source: string;
   is_premium: boolean;
   views_count: number;
@@ -21,19 +22,33 @@ interface NewsSectionProps {
 }
 
 const NewsSection = ({ news, loading }: NewsSectionProps) => {
-  const renderCredibilityRating = (rating: number) => {
-    return (
-      <div className="flex items-center gap-1">
-        {[...Array(5)].map((_, i) => (
-          <Icon 
-            key={i} 
-            name="Star" 
-            size={14} 
-            className={i < rating ? 'fill-accent text-accent' : 'text-muted'}
-          />
-        ))}
-      </div>
-    );
+  const getCredibilityBadge = (status: string) => {
+    switch (status) {
+      case 'official':
+        return {
+          icon: 'CheckCircle2',
+          text: 'Официально',
+          className: 'bg-green-500/20 text-green-300 border-green-500/50'
+        };
+      case 'confirmed_rumor':
+        return {
+          icon: 'AlertCircle',
+          text: 'Подтверждённый слух',
+          className: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/50'
+        };
+      case 'unverified_rumor':
+        return {
+          icon: 'HelpCircle',
+          text: 'Непроверенный слух',
+          className: 'bg-orange-500/20 text-orange-300 border-orange-500/50'
+        };
+      default:
+        return {
+          icon: 'Info',
+          text: 'Неизвестно',
+          className: 'bg-muted text-muted-foreground'
+        };
+    }
   };
 
   return (
@@ -82,10 +97,15 @@ const NewsSection = ({ news, loading }: NewsSectionProps) => {
               
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground">Достоверность:</span>
-                    {renderCredibilityRating(item.credibility_rating)}
-                  </div>
+                  {(() => {
+                    const badge = getCredibilityBadge(item.credibility_status);
+                    return (
+                      <Badge variant="outline" className={`text-xs ${badge.className}`}>
+                        <Icon name={badge.icon as any} size={12} className="mr-1" />
+                        {badge.text}
+                      </Badge>
+                    );
+                  })()}
                 </div>
                 <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2">
                   {item.title}

@@ -6,6 +6,8 @@ import Header from '@/components/Header';
 import NewsSection from '@/components/NewsSection';
 import SecretMaterialsSection from '@/components/SecretMaterialsSection';
 import AuthDialogs from '@/components/AuthDialogs';
+import Timeline from '@/components/Timeline';
+import FeaturesSection from '@/components/FeaturesSection';
 
 interface News {
   id: number;
@@ -14,6 +16,7 @@ interface News {
   category: string;
   image_url: string;
   credibility_rating: number;
+  credibility_status: string;
   source: string;
   is_premium: boolean;
   views_count: number;
@@ -226,6 +229,10 @@ const Index = () => {
       </section>
 
       <main className="container mx-auto px-4 py-16 space-y-16">
+        <FeaturesSection />
+        
+        <Timeline apiUrl="https://functions.poehali.dev/9933b5ae-f5fd-4c0f-b8ad-fe1c805b3b5e" />
+        
         <NewsSection news={news} loading={loading} />
 
         <SecretMaterialsSection 

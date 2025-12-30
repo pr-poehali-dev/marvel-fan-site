@@ -1,0 +1,26 @@
+{
+  "tests": [
+    {
+      "name": "Get all movies with phases",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "movies": "array",
+        "phases": "array",
+        "characters": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get movies by phase",
+      "method": "GET",
+      "path": "/?phase_id=1",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "movies": "array"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
