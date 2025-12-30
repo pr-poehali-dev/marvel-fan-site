@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Get subscription status",
+      "method": "GET",
+      "path": "/?user_id=999",
+      "expectedStatus": 404,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
